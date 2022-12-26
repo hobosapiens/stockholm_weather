@@ -2,7 +2,12 @@
   <div class="weather-block">
     <div class="weather-block__top">
       <div class="weather-block__top_left">
-        <img v-if="iconURL" :src="iconURL" class="weather-block__icon" />
+        <img
+            v-if="iconURL"
+            :src="iconURL"
+            class="weather-block__icon"
+            alt="weather-icon"
+        />
       </div>
       <div class="weather-block__top_right">
         <div class="weather-block__date">{{ weather.date }}</div>
@@ -47,6 +52,10 @@ export default {
     return {}
   },
   computed: {
+    isDayTime() {
+      const hours = new Date().getHours()
+      return hours > 6 && hours < 20
+    },
     iconURL() {
       return `http://openweathermap.org/img/wn/${this.weather.icon}@2x.png`
     }
