@@ -1,7 +1,20 @@
-import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { loadEnv } from 'vite'
+import { createHtmlPlugin } from 'vite-plugin-html'
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [vue()],
-})
+export default ({ mode }) => {
+  const env = loadEnv(mode, process.cwd())
+  return {
+    plugins: [
+      vue(),
+      createHtmlPlugin({
+        minify: true,
+        inject: {
+          data: {
+            VITE_PLACES_API_KEY: env.VITE_PLACES_API_KEY,
+          }
+        }
+      }),
+    ],
+  }
+}

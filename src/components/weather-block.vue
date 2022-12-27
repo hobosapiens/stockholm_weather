@@ -39,7 +39,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'WeatherBlock',
   props: {
@@ -47,9 +46,6 @@ export default {
       type: Object,
       required: true
     }
-  },
-  data() {
-    return {}
   },
   computed: {
     isDayTime() {
@@ -70,44 +66,62 @@ export default {
   flex-wrap: nowrap
   box-sizing: border-box
   padding: 40px
-  background: #323544
+  background: #303446
   font-family: 'Roboto', sans-serif
   color: #bfc1c8
+
   &__icon
     width: 80px
     height: 80px
     position: relative
     top: -20px
     left: -20px
+
   &__date
     text-align: right
     letter-spacing: 2px
     margin-bottom: 5px
+
   &__city
     text-transform: uppercase
     text-align: right
     letter-spacing: 2px
+    max-width: 180px
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
   &__temperature
     font-size: 124px
     font-weight: bold
     font-family: 'Unbounded', cursive
-    color: white
+    background: -webkit-linear-gradient(rgb(255 173 158), rgb(115 203 255))
+    -webkit-background-clip: text
+    -webkit-text-fill-color: transparent
+
   &__celsius
     font-size: 64px
     font-family: 'Unbounded', cursive
-    color: white
+    background: -webkit-linear-gradient(rgb(255 173 158), rgb(115 203 255))
+    -webkit-background-clip: text
+    -webkit-text-fill-color: transparent
+
   &__description
     text-align: right
     letter-spacing: 2px
+
   &__top
     display: flex
     justify-content: space-between
+
     &_left
       position: relative
       height: 50px
+
   &__bottom
     text-transform: uppercase
     letter-spacing: 2px
+
     & > div
       display: flex
       justify-content: space-between

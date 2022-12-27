@@ -8,7 +8,7 @@
         placeholder="Type country or city"
     />
     <div v-if="isError" class="search-block__error">
-      <span>Unfortunately, there is no information about this locality 😬</span><br /><br />
+      <span>Unfortunately, there is no information about this locality 😬</span><br/><br/>
       <span>Make sure you choose location from the list 👌</span>
     </div>
   </div>
@@ -40,11 +40,11 @@ export default {
     )
 
     autocomplete.addListener('place_changed', () => {
-          const { name, place_id } = autocomplete.getPlace()
+          const {name, place_id} = autocomplete.getPlace()
           this.input = ''
 
-          if(!place_id) {
-            this.showError()
+          if (!place_id) {
+            this.$emit('error')
             return
           }
 
@@ -55,12 +55,6 @@ export default {
   methods: {
     updatePlaceData(placeData) {
       this.$emit('update', placeData)
-    },
-    showError() {
-      this.isError = true
-      setTimeout(() => {
-        this.isError = false
-      }, 3500)
     }
   }
 }
@@ -69,6 +63,7 @@ export default {
 <style scoped lang="sass">
 .search-block
   position: relative
+
   &__input
     width: 240px
     border: none
@@ -78,8 +73,10 @@ export default {
     font-family: 'Roboto', sans-serif
     color: #323544
     letter-spacing: 2px
+
     &:focus
-      border: 2px solid #bfc1c8 !important
+      border: none !important
+
   &__error
     position: absolute
     bottom: -20px
@@ -89,6 +86,7 @@ export default {
     font-family: 'Unbounded', cursive
     color: red
     box-shadow: -4px 4px 4px 0px rgb(0 0 0 / 50%)
+
     &:after
       bottom: 100%
       left: 50%
