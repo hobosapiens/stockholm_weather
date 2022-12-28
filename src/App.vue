@@ -44,8 +44,12 @@ export default {
   },
 
   beforeMount() {
-    this.getPlaceDataFromApi()
-    this.getWeatherDataFromApi(this.defaultPlace.placeName)
+    getPlaceData(
+        this.service,
+        this.defaultPlace.placeId,
+        this.defaultPlace.placeName,
+        this.updateData
+    )
   },
 
   computed: {
@@ -96,26 +100,17 @@ export default {
         placeName: name
       }))
 
-      this.getWeatherDataFromApi(name)
-    },
-
-    getPlaceDataFromApi() {
-      getPlaceData(
-          this.service,
-          this.defaultPlace.placeId,
-          this.defaultPlace.placeName,
-          this.updateData
-      )
-    },
-
-    getWeatherDataFromApi(name) {
-      const formattedName = name.split(",")[0]
-      getWeatherData(formattedName)
+      getWeatherData(name)
           .then(response => {
             if (!response) {
               this.showError()
               localStorage.removeItem('lastPlace')
-              this.getPlaceDataFromApi()
+              getPlaceData(
+                  this.service,
+                  this.defaultPlace.placeId,
+                  this.defaultPlace.placeName,
+                  this.updateData
+              )
             } else {
               this.weather = this.reformatWeatherData(response)
               this.loading = false
