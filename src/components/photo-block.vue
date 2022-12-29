@@ -4,8 +4,10 @@
       <img
           :src="currentPhotoUrl"
           :alt="city"
+          :class="{'blurred': isError}"
           class="photo-block__img"
       />
+      <div class="photo-block__vignette" />
     </div>
   </div>
 </template>
@@ -22,6 +24,10 @@ export default {
     city: {
       type: String,
       default: 'City'
+    },
+    isError: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -51,12 +57,19 @@ export default {
 
 <style scoped lang="sass">
 .photo-block
+  display: flex
+  justify-content: center
+  flex-direction: column
+  position: relative
+  width: 100%
+  height: 100%
+  overflow: hidden
+
   &__wrapper
     display: flex
     align-items: center
     justify-content: center
-    width: 600px
-    height: 434px
+    height: 100%
 
     &:after
       content: ''
@@ -73,4 +86,32 @@ export default {
     width: 100%
     height: 100%
     object-fit: cover
+    position: relative
+
+    &.blurred
+      filter: grayscale(0.5) sepia(0.5) blur(5px)
+
+  &__vignette
+    display: block
+    position: absolute
+    left: 0
+    right: 0
+    top: 0
+    bottom: 0
+
+    &:before, &:after
+      content: ''
+      position: absolute
+      left: 0
+      width: 100%
+      height: 100px
+      filter: blur(2px)
+
+    &:before
+      top: 0
+      background: linear-gradient(180deg, rgb(0 0 0 / 60%) 0%, rgba(42, 13, 61, 0) 100%)
+
+    &:after
+      bottom: 0
+      background: linear-gradient(0deg, rgb(0 0 0 / 60%) 0%, rgba(42, 13, 61, 0) 100%)
 </style>

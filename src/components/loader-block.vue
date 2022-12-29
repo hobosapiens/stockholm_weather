@@ -21,7 +21,7 @@ export default {
   &__text
     position: relative
     left: 2px
-    font-family: 'Roboto', sans-serif
+    font-family: 'Oxygen', sans-serif
     letter-spacing: 2px
     margin-top: 20px
     font-size: 16px

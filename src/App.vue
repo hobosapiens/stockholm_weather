@@ -1,18 +1,29 @@
 <template>
-  <loader-block v-if="loading"/>
-  <div v-else class="weather">
-    <weather-block :weather="weather"/>
-    <div class="photo">
-      <search-block
-          :service="service"
-          class="search"
-          @update="updateData"
-          @error="showError"
-      />
-      <photo-block :photos="placePhotos" :city="placeName"/>
-    </div>
+  <loader-block v-if="loading" />
+  <div v-else class="widget">
+    <photo-block
+        :photos="placePhotos"
+        :city="placeName"
+        :isError="isError"
+    />
+    <weather-block
+        v-if="!isError"
+        :weather="weather"
+        :city="placeName"
+    />
+    <search-block
+        v-if="!isError"
+        :service="service"
+        class="search"
+        @update="updateData"
+        @error="showError"
+    />
+    <error-block
+        v-if="isError"
+        class="error"
+        @close="closeError"
+    />
   </div>
-  <error-block v-if="isError" class="error"/>
 </template>
 
 <script>
@@ -62,13 +73,13 @@ export default {
         placeId: 'ChIJywtkGTF2X0YRZnedZ9MnDag',
         placeName: 'Stockholm'
       }
-    },
+    }
   },
 
   methods: {
     reformatWeatherData(data) {
       return {
-        city: data?.name,
+        localTime: this.getTimeByOffset(data?.timezone),
         date: new Date().toLocaleDateString(),
         temperature: Math.round(data?.main.temp),
         description: data?.weather[0]?.description,
@@ -89,7 +100,7 @@ export default {
       this.loading = true
 
       photos.forEach(photo => {
-        photoUrls.push(photo.getUrl())
+        photoUrls.push(photo.getUrl(455, 960))
       })
 
       this.placeName = name
@@ -121,34 +132,49 @@ export default {
     showError() {
       this.isError = true
       setTimeout(() => {
-        this.isError = false
-      }, 3500)
-    }
+        this.closeError()
+      }, 10000)
+    },
+
+    closeError() {
+      this.isError = false
+    },
+
+    getTimeByOffset(offset){
+      const date = new Date(new Date().getTime() + (offset * 1000))
+      const hrs = date.getUTCHours()
+      const mins = date.getUTCMinutes()
+      return `${hrs}:${mins}`
+    },
   }
 }
 </script>
 
 <style scoped lang="sass">
-.weather
-  display: flex
+.widget
   position: relative
+  width: 960px
+  height: 455px
   box-shadow: -4px 4px 4px 0px rgb(0 0 0 / 50%)
 
-.photo
-  position: relative
-  height: 434px
-  width: 600px
-
-.search
+.weather-block
   position: absolute
-  left: 50%
+  left: 0
+  right: 0
+  top: 0
+  bottom: 0
+  z-index: 1
+
+.search-block
+  position: absolute
+  right: 40px
   top: 40px
-  transform: translateX(-50%)
   z-index: 100
 
-.error
+.error-block
   position: absolute
-  top: 50%
-  left: 50%
-  transform: translate(-50%, -50%)
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="search-block">
+  <div :class="{'shown': isShownInput}" class="search-block">
     <input
         ref="search"
         v-model="input"
@@ -7,10 +7,12 @@
         type="text"
         placeholder="Type country or city"
     />
-    <div v-if="isError" class="search-block__error">
-      <span>Unfortunately, there is no information about this locality 😬</span><br/><br/>
-      <span>Make sure you choose location from the list 👌</span>
-    </div>
+    <img
+        src="../assets/search.svg"
+        alt="search"
+        class="search-block__icon"
+        @click="toggleSearch"
+    >
   </div>
 </template>
 
@@ -28,12 +30,12 @@ export default {
   data() {
     return {
       input: '',
-      isError: false
+      isShownInput: false
     }
   },
   mounted() {
     const autocomplete = new google.maps.places.Autocomplete(
-        this.$refs['search'],
+        this.$refs.search,
         {
           fields: ['name', 'place_id']
         }
@@ -49,12 +51,19 @@ export default {
           }
 
           getPlaceData(this.service, place_id, name, this.updatePlaceData)
+          this.toggleSearch()
         }
     )
   },
   methods: {
     updatePlaceData(placeData) {
       this.$emit('update', placeData)
+    },
+    toggleSearch() {
+      this.isShownInput = !this.isShownInput
+      if(this.isShownInput) {
+        this.$refs.search.focus()
+      }
     }
   }
 }
@@ -62,41 +71,45 @@ export default {
 
 <style scoped lang="sass">
 .search-block
-  position: relative
+  display: flex
+  align-items: center
+  border: 2px solid transparent
+  border-radius: 16px
+  box-sizing: border-box
+  padding: 0 7px
+
+  &__icon
+    cursor: pointer
+
+    &:hover
+      opacity: .7
 
   &__input
-    width: 240px
+    width: 0
     border: none
     outline: none
-    padding: 12px 16px
-    box-shadow: -3px 3px 4px -2px rgb(0 0 0 / 50%) inset
-    font-family: 'Roboto', sans-serif
-    color: #323544
-    letter-spacing: 2px
+    padding: 6px 7px
+    margin-left: 4px
+    background: none
+    font-size: 16px
+    font-family: 'Oxygen', sans-serif
+    color: white
+    transition: width .5s ease
+
+    &::placeholder
+      color: transparent
 
     &:focus
       border: none !important
 
-  &__error
-    position: absolute
-    bottom: -20px
-    transform: translateY(100%)
-    background: white
-    padding: 20px
-    font-family: 'Unbounded', cursive
-    color: red
-    box-shadow: -4px 4px 4px 0px rgb(0 0 0 / 50%)
+.shown
+  &.search-block
+    border-color: white
 
-    &:after
-      bottom: 100%
-      left: 50%
-      content: " "
-      height: 0
-      width: 0
-      position: absolute
-      pointer-events: none
-      margin-left: -15px
-      border: solid rgba(136, 183, 213, 0)
-      border-bottom-color: white
-      border-width: 15px
+  .search-block
+    &__input
+      width: 240px
+
+      &::placeholder
+        color: rgba(255, 255, 255, .6)
 </style>

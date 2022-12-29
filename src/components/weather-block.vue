@@ -1,38 +1,52 @@
 <template>
   <div class="weather-block">
-    <div class="weather-block__top">
-      <div class="weather-block__top_left">
-        <img
-            v-if="iconURL"
-            :src="iconURL"
-            class="weather-block__icon"
-            alt="weather-icon"
-        />
+    <div class="weather-block__left">
+      <div class="weather-block__top">
+        <div class="weather-block__top_left">
+          <img
+              v-if="iconURL"
+              :src="iconURL"
+              class="weather-block__icon"
+              alt="weather-icon"
+          />
+        </div>
+        <div class="weather-block__top_right">
+          <span class="weather-block__description">{{ weather.description }}</span>
+        </div>
       </div>
-      <div class="weather-block__top_right">
-        <div class="weather-block__date">{{ weather.date }}</div>
-        <div class="weather-block__city">{{ weather.city }}</div>
+      <div class="weather-block__middle">
+        <span class="weather-block__temperature">{{ weather.temperature }}</span>
+        <span class="weather-block__celsius">°C</span>
+      </div>
+      <div class="weather-block__bottom">
+        <div class="weather-block__city">{{ city }}</div>
+        <div class="weather-block__date">Local time:  {{ weather.localTime }}</div>
       </div>
     </div>
-    <div class="weather-block__middle">
-      <span class="weather-block__temperature">{{ weather.temperature }}</span>
-      <span class="weather-block__celsius">°C</span>
-    </div>
-    <div class="weather-block__bottom">
-      <div class="weather-block__description">
-        <span>{{ weather.description }}</span>
+    <div class="weather-block__right">
+      <div class="weather-block__right_item weather-block__feels-like">
+        <span class="weather-block__right_item_amount">
+          {{ weather.feels_like }}<span class="value">°C</span>
+        </span>
+        <span class="weather-block__right_item_title">feels like</span>
       </div>
-      <div class="weather-block__feels-like">
-        <span>feels like: </span><span>{{ weather.feels_like }}°C</span>
+      <div class="weather-block__right_item weather-block__pressure">
+        <span class="weather-block__right_item_amount">
+          {{ weather.pressure }}<span class="value">mm</span>
+        </span>
+        <span class="weather-block__right_item_title">pressure</span>
       </div>
-      <div class="weather-block__pressure">
-        <span>pressure: </span><span>{{ weather.pressure }} mm</span>
+      <div class="weather-block__right_item weather-block__humidity">
+        <span class="weather-block__right_item_amount">
+          {{ weather.humidity }}<span class="value">%</span>
+        </span>
+        <span class="weather-block__right_item_title">humidity</span>
       </div>
-      <div class="weather-block__humidity">
-        <span>humidity: </span><span>{{ weather.humidity }} %</span>
-      </div>
-      <div class="weather-block__wind-speed">
-        <span>wind: </span><span>{{ weather.wind_speed }} m/sec</span>
+      <div class="weather-block__right_item weather-block__wind-speed">
+        <span class="weather-block__right_item_amount">
+          {{ weather.wind_speed }}<span class="value">m/sec</span>
+        </span>
+        <span class="weather-block__right_item_title">wind</span>
       </div>
     </div>
   </div>
@@ -44,6 +58,10 @@ export default {
   props: {
     weather: {
       type: Object,
+      required: true
+    },
+    city: {
+      type: String,
       required: true
     }
   },
@@ -62,68 +80,74 @@ export default {
 <style scoped lang="sass">
 .weather-block
   display: flex
-  flex-direction: column
   flex-wrap: nowrap
   box-sizing: border-box
+  color: white
+  text-transform: uppercase
+  font-size: 16px
+  font-family: 'Oxygen', sans-serif
   padding: 40px
-  background: #303446
-  font-family: 'Roboto', sans-serif
-  color: #bfc1c8
 
-  &__icon
-    width: 80px
-    height: 80px
-    position: relative
-    top: -20px
-    left: -20px
+  &__left
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    height: 100%
 
-  &__date
-    text-align: right
-    letter-spacing: 2px
-    margin-bottom: 5px
+  &__right
+    display: flex
+    align-items: flex-end
+    justify-content: flex-end
+    flex-grow: 1
 
-  &__city
-    text-transform: uppercase
-    text-align: right
-    letter-spacing: 2px
-    max-width: 180px
-    white-space: nowrap
-    overflow: hidden
-    text-overflow: ellipsis
+    &_item
+      display: flex
+      flex-direction: column
+      white-space: nowrap
 
-  &__temperature
-    font-size: 124px
-    font-weight: bold
-    font-family: 'Unbounded', cursive
-    background: -webkit-linear-gradient(rgb(255 173 158), rgb(115 203 255))
-    -webkit-background-clip: text
-    -webkit-text-fill-color: transparent
+      &:not(:first-of-type)
+        margin-left: 65px
 
-  &__celsius
-    font-size: 64px
-    font-family: 'Unbounded', cursive
-    background: -webkit-linear-gradient(rgb(255 173 158), rgb(115 203 255))
-    -webkit-background-clip: text
-    -webkit-text-fill-color: transparent
+      &_amount
+        font-size: 20px
+        font-weight: bold
+        font-family: 'Unbounded', cursive
 
-  &__description
-    text-align: right
-    letter-spacing: 2px
+        .value
+          font-size: 12px
+
+      &_title
+        font-size: 12px
 
   &__top
     display: flex
-    justify-content: space-between
 
     &_left
       position: relative
       height: 50px
 
-  &__bottom
-    text-transform: uppercase
-    letter-spacing: 2px
+  &__icon
+    position: relative
+    left: -10px
+    top: -30px
 
-    & > div
-      display: flex
-      justify-content: space-between
-      margin-bottom: 10px
+  &__city
+    margin-bottom: 10px
+
+  &__temperature
+    font-size: 124px
+    font-weight: bold
+    font-family: 'Unbounded', cursive
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.5)
+
+  &__celsius
+    font-size: 80px
+    font-weight: bold
+    font-family: 'Unbounded', cursive
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.5)
+
+  &__description
+    display: block
+    margin-top: 9px
+    margin-left: 5px
 </style>
