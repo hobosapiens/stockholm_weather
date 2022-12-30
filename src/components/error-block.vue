@@ -23,16 +23,34 @@ export default {
   display: flex
   align-items: center
   justify-content: center
+  position: absolute
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+
+  @media screen and (max-width: 540px)
+    padding: 40px
 
   &::after
     content: url('../assets/close.svg')
     display: block
-    width: 20px
-    height: 20px
+    width: 24px
+    height: 24px
     position: absolute
     top: 40px
     right: 40px
     cursor: pointer
+
+    @media screen and (max-width: 720px)
+      top: 20px
+      right: 30px
+
+    @media screen and (max-width: 540px)
+      background: gray
+      top: -42px
+      right: 0
+      padding: 4px
 
     &:hover
       opacity: .7
@@ -46,6 +64,14 @@ export default {
     border-radius: 20px
     background: white
     box-shadow: -4px 4px 4px 0px rgb(0 0 0 / 50%)
+
+    @media screen and (max-width: 720px)
+      padding: 20px
+
+    @media screen and (max-width: 540px)
+      border-radius: 0
+      box-shadow: none
+      border: 1px solid gray
 
   &__gif
     width: 350px

@@ -1,5 +1,5 @@
 <template>
-  <loader-block v-if="loading" />
+  <loader-block v-if="loading"/>
   <div v-else class="widget">
     <photo-block
         :photos="placePhotos"
@@ -140,11 +140,15 @@ export default {
       this.isError = false
     },
 
-    getTimeByOffset(offset){
+    getTimeByOffset(offset) {
       const date = new Date(new Date().getTime() + (offset * 1000))
       const hrs = date.getUTCHours()
       const mins = date.getUTCMinutes()
-      return `${hrs}:${mins}`
+
+      const hrsFormatted = hrs.toString().length === 1 ? `0${hrs.toString()}` :  hrs.toString()
+      const minsFormatted = mins.toString().length === 1 ? `0${mins.toString()}` :  mins.toString()
+
+      return `${hrsFormatted}:${minsFormatted}`
     },
   }
 }
@@ -157,24 +161,18 @@ export default {
   height: 455px
   box-shadow: -4px 4px 4px 0px rgb(0 0 0 / 50%)
 
-.weather-block
-  position: absolute
-  left: 0
-  right: 0
-  top: 0
-  bottom: 0
-  z-index: 1
+  @media screen and (max-width: 960px)
+    width: 720px
+    height: 341px
 
-.search-block
-  position: absolute
-  right: 40px
-  top: 40px
-  z-index: 100
+  @media screen and (max-width: 720px)
+    width: 540px
+    height: 256px
 
-.error-block
-  position: absolute
-  top: 0
-  bottom: 0
-  left: 0
-  right: 0
+  @media screen and (max-width: 540px)
+    width: 100%
+    height: 300px
+    margin-top: 70px
+    margin-bottom: 200px
+    box-shadow: none
 </style>

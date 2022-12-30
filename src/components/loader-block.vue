@@ -17,6 +17,10 @@ export default {
   flex-direction: column
   align-items: center
   justify-content: center
+  position: absolute
+  left: 50%
+  top: 50%
+  transform: translate(-50%, -50%)
 
   &__text
     position: relative
@@ -25,4 +29,7 @@ export default {
     letter-spacing: 2px
     margin-top: 20px
     font-size: 16px
+
+    @media screen and (max-width: 720px)
+      font-size: 14px
 </style>

@@ -65,6 +65,10 @@ export default {
   height: 100%
   overflow: hidden
 
+  @media screen and (max-width: 540px)
+    border-radius: 16px
+    box-shadow: -4px 4px 4px 0px rgb(0 0 0 / 50%)
+
   &__wrapper
     display: flex
     align-items: center

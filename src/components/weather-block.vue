@@ -2,7 +2,7 @@
   <div class="weather-block">
     <div class="weather-block__left">
       <div class="weather-block__top">
-        <div class="weather-block__top_left">
+        <div :class="{'night': dayOrNight === 'n'}" class="weather-block__top_left">
           <img
               v-if="iconURL"
               :src="iconURL"
@@ -66,9 +66,8 @@ export default {
     }
   },
   computed: {
-    isDayTime() {
-      const hours = new Date().getHours()
-      return hours > 6 && hours < 20
+    dayOrNight() {
+      return this.weather.icon.match(/[a-zA-Z]/)[0]
     },
     iconURL() {
       return `http://openweathermap.org/img/wn/${this.weather.icon}@2x.png`
@@ -82,11 +81,28 @@ export default {
   display: flex
   flex-wrap: nowrap
   box-sizing: border-box
+  position: absolute
+  left: 0
+  right: 0
+  top: 0
+  bottom: 0
+  z-index: 1
   color: white
   text-transform: uppercase
   font-size: 16px
   font-family: 'Oxygen', sans-serif
   padding: 40px
+
+  @media screen and (max-width: 960px)
+    padding: 20px
+
+  @media screen and (max-width: 720px)
+    justify-content: space-between
+    font-size: 14px
+
+  @media screen and (max-width: 540px)
+    text-align: center
+    padding: 24px
 
   &__left
     display: flex
@@ -94,19 +110,57 @@ export default {
     justify-content: space-between
     height: 100%
 
+    @media screen and (max-width: 540px)
+      align-items: center
+      width: 100%
+
   &__right
     display: flex
     align-items: flex-end
     justify-content: flex-end
     flex-grow: 1
 
+    @media screen and (max-width: 720px)
+      align-self: flex-end
+      justify-content: space-between
+      flex-wrap: wrap
+      flex-grow: 0
+      width: 160px
+      gap: 6px
+
+    @media screen and (max-width: 540px)
+      position: absolute
+      left: 0
+      right: 0
+      bottom: -164px
+      background: -webkit-linear-gradient(180deg, #BDD6ED 0, #768FC1 100%)
+      box-shadow: -4px 4px 4px 0px rgb(0 0 0 / 50%)
+      border-radius: 16px
+      padding: 20px
+      width: 100%
+      box-sizing: border-box
+      gap: 10px
+
     &_item
       display: flex
       flex-direction: column
       white-space: nowrap
 
+      @media screen and (max-width: 720px)
+        width: calc(50% - 5px)
+
+      @media screen and (max-width: 540px)
+        width: calc(50% - 10px)
+        align-items: center
+
       &:not(:first-of-type)
         margin-left: 65px
+
+        @media screen and (max-width: 960px)
+          margin-left: 40px
+
+        @media screen and (max-width: 720px)
+          margin-left: 0
 
       &_amount
         font-size: 20px
@@ -119,6 +173,9 @@ export default {
       &_title
         font-size: 12px
 
+      @media screen and (max-width: 540px)
+        margin-top: 8px
+
   &__top
     display: flex
 
@@ -126,10 +183,34 @@ export default {
       position: relative
       height: 50px
 
+      &.night
+        &::before
+          content: ""
+          display: block
+          position: absolute
+          top: -20px
+          left: -1px
+          width: 81px
+          height: 81px
+          border-radius: 50%
+          background: radial-gradient(closest-side, rgb(255, 255, 255), rgba(255, 255, 255, 0))
+
+          @media screen and (max-width: 960px)
+            top: -6px
+            left: 5px
+            width: 50px
+            height: 50px
+
   &__icon
     position: relative
     left: -10px
     top: -30px
+
+    @media screen and (max-width: 960px)
+      width: 60px
+      left: 0
+      top: -12px
+      margin-right: 5px
 
   &__city
     margin-bottom: 10px
@@ -140,11 +221,17 @@ export default {
     font-family: 'Unbounded', cursive
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.5)
 
+    @media screen and (max-width: 720px)
+      font-size: 64px
+
   &__celsius
     font-size: 80px
     font-weight: bold
     font-family: 'Unbounded', cursive
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.5)
+
+    @media screen and (max-width: 720px)
+      font-size: 44px
 
   &__description
     display: block
