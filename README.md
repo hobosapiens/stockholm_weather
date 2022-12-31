@@ -15,14 +15,14 @@ npm install
 ```
 in the root directory in your terminal for downloading packages.
 
-After successful installation, you need to start the local server
+After successful installation, you need to rename '.env.test' to '.env' or create new '.env' file.
+You need to substitute API keys in it.
+
+Finally, you need to start the local server
 ```
 npm run serve
 ```
-the address should be http://localhost:8080, it's 
+and open http://localhost:8080 in your browser, it's
 in the permissions of my API key.
-
-Finally, you need to rename '.env.test' to '.env' or create new '.env' file.
-You need to substitute API keys in it.
 
 Well done! I hope it worked :)
