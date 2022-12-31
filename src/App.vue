@@ -48,7 +48,7 @@ export default {
       weather: {},
       placeName: '',
       placePhotos: [],
-      service: new google.maps.places.PlacesService(document.createElement('div')),
+      service: new window.google.maps.places.PlacesService(document.createElement('div')),
       loading: true,
       isError: false
     }

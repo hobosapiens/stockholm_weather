@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import {getPlaceData} from "../api.js";
+import {getPlaceData} from "@/api";
 
 export default {
   name: 'SearchBlock',
@@ -34,7 +34,7 @@ export default {
     }
   },
   mounted() {
-    const autocomplete = new google.maps.places.Autocomplete(
+    const autocomplete = new window.google.maps.places.Autocomplete(
         this.$refs.search,
         {
           fields: ['name', 'place_id']

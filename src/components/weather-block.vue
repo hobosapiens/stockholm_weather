@@ -2,12 +2,11 @@
   <div class="weather-block">
     <div class="weather-block__left">
       <div class="weather-block__top">
-        <div :class="{'night': dayOrNight === 'n'}" class="weather-block__top_left">
+        <div class="weather-block__top_left">
           <img
-              v-if="iconURL"
-              :src="iconURL"
+              :src="require(`../assets/weather-icons/${ weather.icon }.png`)"
               class="weather-block__icon"
-              alt="weather-icon"
+              :alt="weather.description"
           />
         </div>
         <div class="weather-block__top_right">
@@ -63,14 +62,6 @@ export default {
     city: {
       type: String,
       required: true
-    }
-  },
-  computed: {
-    dayOrNight() {
-      return this.weather.icon.match(/[a-zA-Z]/)[0]
-    },
-    iconURL() {
-      return `http://openweathermap.org/img/wn/${this.weather.icon}@2x.png`
     }
   }
 }
@@ -183,34 +174,12 @@ export default {
       position: relative
       height: 50px
 
-      &.night
-        &::before
-          content: ""
-          display: block
-          position: absolute
-          top: -20px
-          left: -1px
-          width: 81px
-          height: 81px
-          border-radius: 50%
-          background: radial-gradient(closest-side, rgb(255, 255, 255), rgba(255, 255, 255, 0))
-
-          @media screen and (max-width: 960px)
-            top: -6px
-            left: 5px
-            width: 50px
-            height: 50px
-
   &__icon
     position: relative
-    left: -10px
-    top: -30px
+    margin-right: 25px
 
     @media screen and (max-width: 960px)
-      width: 60px
-      left: 0
-      top: -12px
-      margin-right: 5px
+      width: 30px
 
   &__city
     margin-bottom: 10px
@@ -237,4 +206,11 @@ export default {
     display: block
     margin-top: 9px
     margin-left: 5px
+
+    @media screen and (max-width: 960px)
+      margin-top: 4px
+      margin-left: 0
+
+    @media screen and (max-width: 540px)
+      margin-top: 6px
 </style>

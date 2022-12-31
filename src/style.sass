@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen&family=Unbounded:wght@300;700&display=swap')
+
+body
+    margin: 0
+    display: flex
+    place-items: center
+    justify-content: center
+    min-width: 100vw
+    min-height: 100vh
+
+    @media screen and (max-width: 540px)
+        place-items: flex-start
+        min-width: auto
+        min-height: auto
+        padding: 0 20px
+
+#app
+    @media screen and (max-width: 540px)
+        display: flex
+        flex-grow: 1
