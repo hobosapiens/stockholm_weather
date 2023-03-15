@@ -1,4 +1,4 @@
-# Weather app with google-map photos of location
+# Weather widget with google-map photos of location
 (google API key required)
 
 A weather application written in Vue.js using the OpenWeatherMap API
