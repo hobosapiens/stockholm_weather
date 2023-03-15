@@ -1,6 +1,7 @@
-# Weather app
+# Weather app with google-map photos of location
+(google API key required)
 
-A weather application written in Vue.js using the openweathermap API
+A weather application written in Vue.js using the OpenWeatherMap API
 for weather forecasting and the Google Places API for getting photos
 of places.
 
@@ -22,7 +23,6 @@ Finally, you need to start the local server
 ```
 npm run serve
 ```
-and open http://localhost:8080 in your browser, it's
-in the permissions of my API key.
+and open http://localhost:8080 in your browser
 
 Well done! I hope it worked :)
